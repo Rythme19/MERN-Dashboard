@@ -1,23 +1,19 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { Box, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
 import { fromUnixTime } from "date-fns";
+import dataModel from 'model/data.model';
+import { observer } from 'mobx-react';
 
-const History = () => {
+
+const History = observer(() => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("http://127.0.0.1:3001/getData")
-      .then((response) => setData(response.data))
-      .catch((err) =>
-        console.log("There was an error fetching the data!", err)
-      );
+    dataModel.fetchData();
   }, []);
 
   const columns = [
@@ -61,7 +57,7 @@ const History = () => {
       >
         <DataGrid
           checkboxSelection
-          rows={data.map((elem) => {
+          rows={dataModel.data.map((elem) => {
             return {
               ...elem,
               time: fromUnixTime(elem.time).toLocaleString(),
@@ -73,6 +69,6 @@ const History = () => {
       </Box>
     </Box>
   );
-};
+});
 
 export default History;

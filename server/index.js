@@ -5,8 +5,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import helmet from "helmet";
 import morgan from "morgan";
-import DataModel from "./models/Data.js";
 import userController from "./controllers/user.controller.js";
+import dataController from "./controllers/data.controller.js";
 
 
 
@@ -28,23 +28,13 @@ app.use(morgan("common"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-/* ROUTES */
-//app.use("management",managementRoutes);
+
 
 mongoose.connect("mongodb://127.0.0.1:27017/fermeaquacole");
-
+/* ROUTES */
 app.use(userController);
 
-app.get("/getData", (req, res) => {
-  DataModel.find()
-    .then((data) => {
-      res.json(data);
-      //console.log(data);
-    })
-    .catch((err) => res.json(err));
-});
-
-
+app.use(dataController);
 
 // //websocket 
 
