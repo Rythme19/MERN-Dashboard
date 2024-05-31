@@ -8,10 +8,10 @@ import Sidebar from "./scenes/global/Sidebar";
 import Team from "./scenes/team";
 import History from "./scenes/history";
 //import Contacts from "./scenes/contacts";
-import Bar from "./scenes/bar";
 import Form from "./scenes/form";
 import Line from "./scenes/line";
 import Realtime from "./scenes/realtime";
+//import Realtime from "./scenes/realtime";
 //import Pie from "./scenes/pie";
 //import FAQ from "./scenes/faq";
 //import Geography from "./scenes/geography";
@@ -33,10 +33,9 @@ function App() {
               <Route path="/team" element={<Team />} />
              
               <Route path="/line" element={<Line />} />
-              <Route path="/bar" element={<Bar />} />
               <Route path="/form" element={<Form />} />
               <Route path="/history" element={<History />} />
-              
+              <Route path="/realtime" element={<Realtime />} />
               {/*
               <Route path="/realtime" element={<Realtime />} />
               <Route path="/contacts" element={<Contacts />} />

@@ -1,49 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import { CircularProgressbar } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
+import React, { useState } from 'react';
 import axios from 'axios';
-import { Box } from '@mui/material';
 
-const Realtime = () => {
-  const [temperature, setTemperature] = useState(0);
-  const [pressure, setPressure] = useState(0);
+const RealtimeTemperature = () => {
+  const [temperature, setTemperature] = useState('');
 
-  useEffect(() => {
-    // Fetch initial data
-    axios.get('/api/data')
-      .then(response => {
-        const { temperature, pressure } = response.data;
-        setTemperature(temperature);
-        setPressure(pressure);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
+  const handleTemperatureChange = (e) => {
+    setTemperature(e.target.value);
+  };
 
-    // Set up WebSocket connection
-    const socket = new WebSocket('ws://localhost:3001/ws');
-    socket.onmessage = event => {
-      const newData = JSON.parse(event.data);
-      const { temperature, pressure } = newData;
-      setTemperature(temperature);
-      setPressure(pressure);
-    };
-
-    return () => socket.close();
-  }, []);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post('/api/realtime/send-temperature', { temperature });
+      console.log('Temperature sent successfully');
+    } catch (error) {
+      console.error('Error sending temperature:', error);
+    }
+  };
 
   return (
-    <Box display="flex" justifyContent="space-around" alignItems="center" height="100vh">
-      <div className="progressbar">
-        <h2>Temperature</h2>
-        <CircularProgressbar value={temperature} text={`${temperature}°C`} />
-      </div>
-      <div className="progressbar">
-        <h2>Pressure</h2>
-        <CircularProgressbar value={pressure} text={`${pressure}Pa`} />
-      </div>
-    </Box>
+    <div>
+      <h2>Realtime Temperature</h2>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Temperature:
+          <input type="text" value={temperature} onChange={handleTemperatureChange} />
+        </label>
+        <button type="submit">Send Temperature</button>
+      </form>
+    </div>
   );
 };
 
-export default Realtime;
+export default RealtimeTemperature;

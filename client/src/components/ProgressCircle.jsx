@@ -1,21 +1,31 @@
-import { Box, useTheme } from "@mui/material";
-import { tokens } from "../theme";
+import React from 'react';
+import { Box, useTheme } from '@mui/material';
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
+import { tokens } from '../theme';
 
-const ProgressCircle = ({ progress = "0.75", size = "40" }) => {
+const ProgressCircle = ({ value = 75, unit = '°C', size = 100 }) => { // Default size increased
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const angle = progress * 360;
+
   return (
     <Box
       sx={{
-        background: `radial-gradient(${colors.primary[400]} 55%, transparent 56%),
-            conic-gradient(transparent 0deg ${angle}deg, ${colors.blueAccent[500]} ${angle}deg 360deg),
-            ${colors.greenAccent[500]}`,
-        borderRadius: "50%",
         width: `${size}px`,
         height: `${size}px`,
       }}
-    />
+    >
+      <CircularProgressbar
+        value={value}
+        text={`${value}${unit}`}
+        styles={buildStyles({
+          textColor: colors.primary[400],
+          pathColor: colors.blueAccent[500],
+          trailColor: colors.greenAccent[500],
+          textSize: '18px', // Increased text size
+        })}
+      />
+    </Box>
   );
 };
 

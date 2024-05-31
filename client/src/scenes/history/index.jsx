@@ -4,7 +4,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
 import { fromUnixTime } from "date-fns";
-import dataModel from 'model/data.model';
+import dataModel from 'model/aquastats.model';
 import { observer } from 'mobx-react';
 
 
@@ -18,9 +18,10 @@ const History = observer(() => {
 
   const columns = [
     { field: "_id", headerName: "ID", flex: 0.5 },
-    { field: "time", headerName: "Time", flex: 1 },
-    { field: "temperature", headerName: "Temperature", flex: 1 },
-    { field: "pressure", headerName: "Pressure", flex: 1 },
+    { field: "date", headerName: "Date", flex: 1 },
+    { field: "time", headerName: "Time ", flex: 1 },
+    { field: "temperature", headerName: "Temperature (C°)", flex: 1 },
+    { field: "pressure", headerName: "Pressure (Pa)", flex: 1 },
   ];
 
   return (
@@ -57,12 +58,7 @@ const History = observer(() => {
       >
         <DataGrid
           checkboxSelection
-          rows={dataModel.data.map((elem) => {
-            return {
-              ...elem,
-              time: fromUnixTime(elem.time).toLocaleString(),
-            };
-          })}
+          rows={dataModel.aquastatsdata}
           columns={columns}
           getRowId={(row) => row._id} // Ensures the correct key is used for each row
         />

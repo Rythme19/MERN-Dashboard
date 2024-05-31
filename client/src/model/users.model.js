@@ -13,7 +13,7 @@ class Users {
 
   fetchUsers() {
     axios
-      .get("http://127.0.0.1:3001/getUsers")
+      .get("http://127.0.0.1:3001/api/users/getUsers")
       .then((response) => (this.users = response.data))
       .catch((err) =>
         console.log("There was an error fetching the data!", err)

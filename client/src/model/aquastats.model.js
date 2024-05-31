@@ -1,25 +1,25 @@
 import { action, makeAutoObservable, observable } from "mobx";
 import axios from "axios";
 
-class Data {
-  data = [];
+class AquastatsData {
+  aquastatsdata = [];
 
   constructor() {
     makeAutoObservable(this, {
-      data: observable,
+      aquastatsdata: observable,
       fetchData: action,
     });
   }
 
   fetchData() {
     axios
-      .get("http://127.0.0.1:3001/getData")
-      .then((response) => (this.data = response.data))
+      .get("http://127.0.0.1:3001/api/aquastats/getData")
+      .then((response) => (this.aquastatsdata = response.data))
       .catch((err) =>
         console.log("There was an error fetching the data!", err)
       );
   }
 }
 
-const dataModel = new Data();
+const dataModel = new AquastatsData ();
 export default dataModel;
