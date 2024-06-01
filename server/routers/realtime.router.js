@@ -1,9 +1,26 @@
 import express from 'express';
-import { receiveTemperature, getTemperature } from '../controllers/realtime.controller.js';
 
-const router = express.Router();
+const realtimeRouter = express.Router();
 
-router.post('/receive-temperature', receiveTemperature);
-router.get('/get-temperature', getTemperature);
+// Temporary in-memory storage
+let dataStorage = [];
 
-export default router;
+// Route to handle incoming real-time data
+realtimeRouter.post('/realtime', (req, res) => {
+    const { date, time, temperature, pressure } = req.body;
+
+    if (!date || !time || typeof temperature === 'undefined' || typeof pressure === 'undefined') {
+        return res.status(400).json({ error: 'Invalid data format' });
+    }
+
+    const newData = { date, time, temperature, pressure };
+    dataStorage.push(newData);
+    res.status(201).json(newData);
+});
+
+// Route to get all real-time data
+realtimeRouter.get('/realtime', (req, res) => {
+    res.json(dataStorage);
+});
+
+export default realtimeRouter;

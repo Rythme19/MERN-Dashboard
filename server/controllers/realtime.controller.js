@@ -1,29 +1,18 @@
-import Realtime from '../models/realtime.js';
+import dataModel from '../models/aquastats.js';
 
-export const receiveTemperature = (req, res) => {
-  const { temperature } = req.body;
+// Controller function to handle the incoming data
+export const postRealtimeData = async (req, res) => {
+    const { temperature, pressure } = req.body;
 
-  try {
-    console.log(`Received temperature: ${temperature}`);
-    // Save the temperature data
-    Realtime.setTemperature(temperature);
-    res.status(200).send('Temperature received successfully');
-  } catch (error) {
-    console.error('Error receiving temperature:', error);
-    res.status(500).send('Internal Server Error');
-  }
-};
-
-export const getTemperature = (req, res) => {
-  try {
-    const temperature = Realtime.getTemperature();
-    if (temperature !== null) {
-      res.status(200).json({ temperature });
-    } else {
-      res.status(404).send('Temperature not set');
+    if (!temperature || !pressure) {
+        return res.status(400).json({ error: 'Temp and Pressure are required' });
     }
-  } catch (error) {
-    console.error('Error getting temperature:', error);
-    res.status(500).send('Internal Server Error');
-  }
+
+    try {
+        const newData = new dataModel({ temperature, pressure, time ,date});
+        await newData.save();
+        res.status(201).json(newData);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to save data' });
+    }
 };

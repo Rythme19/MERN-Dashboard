@@ -7,7 +7,6 @@ import helmet from "helmet";
 import morgan from "morgan";
 import userRouter from './routers/users.router.js';
 import aquastatsRouter from "./routers/aquastats.router.js";
-
 import realtimeRouter from './routers/realtime.router.js';
 
 
@@ -35,13 +34,8 @@ mongoose.connect("mongodb://127.0.0.1:27017/fermeaquacole");
 /* ROUTES */
 app.use('/api/users', userRouter);
 app.use('/api/aquastats',aquastatsRouter);
+app.use('/api', realtimeRouter);
 
-
-//test jdid 
-
-app.use('/api/realtime', realtimeRouter);
-
-//end
 
 
 app.listen(port, () => {
