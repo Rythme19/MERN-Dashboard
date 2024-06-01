@@ -9,13 +9,13 @@ const Realtime = () => {
   const theme = useTheme();
   const isDarkMode = theme.palette.mode === 'dark'; // Check if dark mode is enabled
   const colors = tokens(theme.palette.mode);
-  const [data, setData] = useState({ temperature: 0, pressure: 0 });
+  const [data, setData] = useState({ temperature: 0, pressure: 0,dateTime: ""  });
 
   const fetchData = async () => {
     try {
       const response = await axios.get("http://localhost:3001/api/realtime");
       const latestData = response.data[response.data.length - 1];
-      setData(latestData || { temperature: 0, pressure: 0 });
+      setData(latestData || { temperature: 0, pressure: 0 ,time: " ", date: " "});
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -79,6 +79,7 @@ const Realtime = () => {
               needleColor="#808080"
               needleBaseColor="#808080"
             />
+            <p>Last Updated: {data.time + " " + data.date  }</p>
           </Box>
           <Box textAlign="center">
             <h3 className="gauge-text">Pressure</h3>
@@ -93,6 +94,7 @@ const Realtime = () => {
               needleColor="#808080"
               needleBaseColor="#808080"
             />
+            <p>Last Updated: {data.time + " " + data.date}</p>
           </Box>
         </Box>
       </Box>

@@ -9,6 +9,7 @@ import Team from "./scenes/team";
 import History from "./scenes/history";
 import Form from "./scenes/form";
 import Line from "./scenes/line";
+import Bar from "scenes/bar";
 import Realtime from "./scenes/realtime";
 //import Geography from "./scenes/geography";
 
@@ -27,6 +28,7 @@ function App() {
             <Routes>
               {/* <Route path="/" element={<Dashboard />} /> */}
               <Route path="/team" element={<Team />} />
+              <Route path="/bar" element={<Bar/>} />
              
               <Route path="/line" element={<Line />} />
               <Route path="/form" element={<Form />} />

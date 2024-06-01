@@ -16,6 +16,8 @@ import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
+import BarChartIcon from '@mui/icons-material/BarChart';
+import SpeedIcon from '@mui/icons-material/Speed';
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -156,7 +158,7 @@ const Sidebar = () => {
             <Item
               title="Realtime"
               to="/realtime"
-              icon={<ReceiptOutlinedIcon />}
+              icon={<SpeedIcon/>}
               selected={selected}
               setSelected={setSelected}
             />
@@ -165,6 +167,13 @@ const Sidebar = () => {
               title="Line Chart"
               to="/line"
               icon={<TimelineOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Bar Chart"
+              to="/bar"
+              icon={<BarChartIcon />}
               selected={selected}
               setSelected={setSelected}
             />
