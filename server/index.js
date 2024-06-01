@@ -8,8 +8,7 @@ import morgan from "morgan";
 import userRouter from './routers/users.router.js';
 import aquastatsRouter from "./routers/aquastats.router.js";
 
-const bodyParser = require('body-parser');
-const realtimeRouter = require('./routers/realtime.router');
+import realtimeRouter from './routers/realtime.router.js';
 
 
 
@@ -40,8 +39,6 @@ app.use('/api/aquastats',aquastatsRouter);
 
 //test jdid 
 
-
-app.use(bodyParser.json());
 app.use('/api/realtime', realtimeRouter);
 
 //end

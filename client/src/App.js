@@ -11,7 +11,6 @@ import History from "./scenes/history";
 import Form from "./scenes/form";
 import Line from "./scenes/line";
 import Realtime from "./scenes/realtime";
-//import Realtime from "./scenes/realtime";
 //import Pie from "./scenes/pie";
 //import FAQ from "./scenes/faq";
 //import Geography from "./scenes/geography";

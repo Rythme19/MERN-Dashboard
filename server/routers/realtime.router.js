@@ -1,8 +1,9 @@
-const express = require('express');
-const realtimeController = require('../controllers/realtime.controller');
+import express from 'express';
+import { receiveTemperature, getTemperature } from '../controllers/realtime.controller.js';
 
 const router = express.Router();
 
-router.post('/send-temperature', realtimeController.sendTemperature);
+router.post('/receive-temperature', receiveTemperature);
+router.get('/get-temperature', getTemperature);
 
-module.exports = router;
+export default router;

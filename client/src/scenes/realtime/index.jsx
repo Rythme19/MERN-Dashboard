@@ -1,35 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const RealtimeTemperature = () => {
+const Realtime = () => {
   const [temperature, setTemperature] = useState('');
 
-  const handleTemperatureChange = (e) => {
-    setTemperature(e.target.value);
-  };
+  useEffect(() => {
+    const fetchTemperature = async () => {
+      try {
+        const response = await axios.get('/api/realtime/get-temperature');
+        setTemperature(response.data.temperature);
+      } catch (error) {
+        console.error('Error fetching temperature:', error);
+      }
+    };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post('/api/realtime/send-temperature', { temperature });
-      console.log('Temperature sent successfully');
-    } catch (error) {
-      console.error('Error sending temperature:', error);
-    }
-  };
+    // Fetch temperature data every 5 seconds
+    const interval = setInterval(fetchTemperature, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div>
       <h2>Realtime Temperature</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Temperature:
-          <input type="text" value={temperature} onChange={handleTemperatureChange} />
-        </label>
-        <button type="submit">Send Temperature</button>
-      </form>
+      <p>Current Temperature: {temperature}</p>
     </div>
   );
 };
 
-export default RealtimeTemperature;
+export default Realtime;
