@@ -19,6 +19,7 @@ const DataSchema = new mongoose.Schema({
   },
 });
 
+
 const DataModel = mongoose.model("sensordatas", DataSchema);
 export default DataModel;
 

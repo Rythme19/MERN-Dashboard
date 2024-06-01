@@ -34,6 +34,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/fermeaquacole");
 /* ROUTES */
 app.use('/api/users', userRouter);
 app.use('/api/aquastats',aquastatsRouter);
+//shoutout to omar
 app.use('/api', realtimeRouter);
 
 
