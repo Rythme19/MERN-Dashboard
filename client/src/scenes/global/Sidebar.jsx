@@ -7,17 +7,16 @@ import { Link } from "react-router-dom";
 import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
 import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
-import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
-import BarChartIcon from '@mui/icons-material/BarChart';
 import SpeedIcon from '@mui/icons-material/Speed';
+import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
+import CompressIcon from '@mui/icons-material/Compress';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
+
+
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -98,7 +97,7 @@ const Sidebar = () => {
                   alt="profile-user"
                   width="100px"
                   height="100px"
-                  src={`../../assets/seagust blackbackground.png`}
+                  src={`../../assets/seagust black simple.png`}
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
               </Box>
@@ -109,10 +108,10 @@ const Sidebar = () => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  Foulen
+                  SeaGust
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
-                  Aquaculture Farm Manager
+                  Dashboard
                 </Typography>
               </Box>
             </Box>
@@ -121,7 +120,7 @@ const Sidebar = () => {
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item
               title="Dashboard"
-              to="/"
+              to="/dashboard"
               icon={<HomeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -131,28 +130,6 @@ const Sidebar = () => {
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
             >
-              {/* Pages
-              </Typography>
-              <Item
-                title="Calendar"
-                to="/calendar"
-                icon={<CalendarTodayOutlinedIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
-              <Item
-                title="FAQ Page"
-                to="/faq"
-                icon={<HelpOutlineOutlinedIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
-  
-              <Typography
-                variant="h6"
-                color={colors.grey[300]}
-                sx={{ m: "15px 0 5px 20px" }}
-          > */}
               Charts & Data
             </Typography>
             <Item
@@ -162,18 +139,18 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            
+           
             <Item
-              title="Line Chart"
+              title="Pressure"
               to="/line"
-              icon={<TimelineOutlinedIcon />}
+              icon={<CompressIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Bar Chart"
+              title="Temperature"
               to="/bar"
-              icon={<BarChartIcon />}
+              icon={<DeviceThermostatIcon />}
               selected={selected}
               setSelected={setSelected}
             />
@@ -188,13 +165,6 @@ const Sidebar = () => {
                 title="Geography Chart"
                 to="/geography"
                 icon={<MapOutlinedIcon />}
-                selected={selected}
-                setSelected={setSelected}
-                />
-                <Item
-                title="Pie Chart"
-                to="/pie"
-                icon={<PieChartOutlineOutlinedIcon />}
                 selected={selected}
                 setSelected={setSelected}
                 />*/}

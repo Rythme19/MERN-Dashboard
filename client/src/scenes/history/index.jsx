@@ -26,7 +26,7 @@ const History = observer(() => {
 
   return (
     <Box m="20px">
-      <Header title="History" subtitle="List Data history" />
+      <Header title="History" subtitle="List Data History" />
       <Box
         m="40px 0 0 0"
         height="75vh"

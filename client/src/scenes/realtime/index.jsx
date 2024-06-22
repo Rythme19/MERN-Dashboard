@@ -86,7 +86,7 @@ const Realtime = () => {
             <GaugeChart
               id="pressure-gauge"
               nrOfLevels={20}
-              percent={(data.pressure - 900) / 200}
+              percent={(data.pressure - 900) / 400}
               textColor={isDarkMode ? "#ffffff" : "#000000"} // White in dark mode, Black in light mode
               formatTextValue={value => `${data.pressure} hPa`}
               colors={["#00bfff", "#ff00ff", "#ff0000", "#00ff00"]}

@@ -13,7 +13,6 @@ import Bar from "scenes/bar";
 import Realtime from "./scenes/realtime";
 //import Geography from "./scenes/geography";
 
-
 function App() {
   const [theme, colorMode] = useMode();
 
@@ -27,9 +26,9 @@ function App() {
             <Topbar />
             <Routes>
               {/* <Route path="/" element={<Dashboard />} /> */}
+              <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/team" element={<Team />} />
-              <Route path="/bar" element={<Bar/>} />
-             
+              <Route path="/bar" element={<Bar />} />
               <Route path="/line" element={<Line />} />
               <Route path="/form" element={<Form />} />
               <Route path="/history" element={<History />} />
