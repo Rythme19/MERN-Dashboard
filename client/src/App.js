@@ -11,7 +11,6 @@ import Form from "./scenes/form";
 import Line from "./scenes/line";
 import Bar from "scenes/bar";
 import Realtime from "./scenes/realtime";
-//import Geography from "./scenes/geography";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -21,7 +20,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <div className="app">
-          <Sidebar />
+          <Sidebar  />
           <main className="content">
             <Topbar />
             <Routes>

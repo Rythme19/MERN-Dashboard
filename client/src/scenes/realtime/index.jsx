@@ -1,21 +1,21 @@
-import { Box, useTheme } from "@mui/material";
+import { Box, useTheme, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import GaugeChart from "react-gauge-chart";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
 
-const Realtime = () => {
+const Realtime = ({ showHeader = true }) => {
   const theme = useTheme();
   const isDarkMode = theme.palette.mode === 'dark'; // Check if dark mode is enabled
   const colors = tokens(theme.palette.mode);
-  const [data, setData] = useState({ temperature: 0, pressure: 0,dateTime: ""  });
+  const [data, setData] = useState({ temperature: 0, pressure: 0, dateTime: "" });
 
   const fetchData = async () => {
     try {
       const response = await axios.get("http://localhost:3001/api/realtime");
       const latestData = response.data[response.data.length - 1];
-      setData(latestData || { temperature: 0, pressure: 0 ,time: " ", date: " "});
+      setData(latestData || { temperature: 0, pressure: 0, time: " ", date: " " });
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -45,12 +45,14 @@ const Realtime = () => {
     return gaugeColors;
   };
 
+  // Format time and date
+  const formattedDateTime = `${data.time}, ${data.date}`;
+
   return (
-    <Box m="20px">
-      <Header title="Realtime" subtitle="Real-time Data Gauges" />
+    <Box m="10px">
+      {showHeader && <Header title="Realtime" subtitle="Real-time Data Gauges" />}
       <Box
-        m="40px 0 0 0"
-        height="75vh"
+        height="40vh"
         display="flex"
         justifyContent="center"
         alignItems="center"
@@ -58,43 +60,51 @@ const Realtime = () => {
           "& .gauge-container": {
             display: "flex",
             justifyContent: "space-around",
-            width: "80%",
+            width: "100%",
           },
           "& .gauge-text": {
             color: isDarkMode ? "#ffffff" : "#808080", // White in dark mode, Grey in light mode
+            fontWeight: "bold", // Make gauge titles bold
+          },
+          "& .time-date": {
+            fontSize: "14px",
+            color: isDarkMode ? "#ffffff" : "#808080", // White in dark mode, Grey in light mode
+            marginTop: "8px",
+            fontWeight: "bold", // Make time and date bold
+            fontFamily: 'Arial, sans-serif',
           },
         }}
       >
         <Box className="gauge-container">
           <Box textAlign="center">
-            <h3 className="gauge-text">Temperature</h3>
+            <Typography variant="h6" className="gauge-text">Temperature</Typography>
             <GaugeChart
               id="temperature-gauge"
               nrOfLevels={10}
-              percent={data.temperature/ 55}
+              percent={data.temperature / 55}
               textColor={isDarkMode ? "#ffffff" : "#000000"} // White in dark mode, Black in light mode
-              formatTextValue={value => `${data.temperature} °C`}
+              formatTextValue={(value) => `${data.temperature} °C`}
               colors={calculateTempColors()}
               arcWidth={0.2}
               needleColor="#808080"
               needleBaseColor="#808080"
             />
-            <p>Last Updated: {data.time + " " + data.date  }</p>
+            <Typography variant="body2" className="time-date">Last Updated: {formattedDateTime}</Typography>
           </Box>
           <Box textAlign="center">
-            <h3 className="gauge-text">Pressure</h3>
+            <Typography variant="h6" className="gauge-text">Pressure</Typography>
             <GaugeChart
               id="pressure-gauge"
               nrOfLevels={20}
               percent={(data.pressure - 900) / 400}
               textColor={isDarkMode ? "#ffffff" : "#000000"} // White in dark mode, Black in light mode
-              formatTextValue={value => `${data.pressure} hPa`}
+              formatTextValue={(value) => `${data.pressure} hPa`}
               colors={["#00bfff", "#ff00ff", "#ff0000", "#00ff00"]}
               arcWidth={0.3}
               needleColor="#808080"
               needleBaseColor="#808080"
             />
-            <p>Last Updated: {data.time + " " + data.date}</p>
+            <Typography variant="body2" className="time-date">Last Updated: {formattedDateTime}</Typography>
           </Box>
         </Box>
       </Box>
