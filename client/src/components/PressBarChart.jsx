@@ -2,7 +2,6 @@ import { useTheme } from "@mui/material";
 import { ResponsiveBar } from "@nivo/bar";
 import { useEffect } from "react";
 import { tokens } from "../theme";
-import { observer } from 'mobx-react';
 import dataModel from 'model/aquastats.model';
 
 const PressBarChart = ({ isDashboard = false }) => {
@@ -163,4 +162,4 @@ const PressBarChart = ({ isDashboard = false }) => {
   );
 };
 
-export default observer(PressBarChart);
+export default PressBarChart;

@@ -4,11 +4,10 @@ import { DataGrid } from '@mui/x-data-grid';
 import { tokens } from '../../theme'; // Adjust the path as needed
 import Header from '../../components/Header'; // Adjust the path as needed
 import usersModel from 'model/users.model';
-import { observer } from 'mobx-react';
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
 
-const Team = observer(() => {
+const Team = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -116,6 +115,6 @@ const Team = observer(() => {
       </Box>
     </Box>
   );
-});
+};
 
 export default Team;

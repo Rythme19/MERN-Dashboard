@@ -2,7 +2,6 @@ import { useTheme } from "@mui/material";
 import { ResponsiveBar } from "@nivo/bar";
 import { useEffect } from "react";
 import { tokens } from "../theme";
-import { observer } from 'mobx-react';
 import dataModel from 'model/aquastats.model';
 
 const TempBarChart = ({ isDashboard = false }) => {
@@ -163,4 +162,4 @@ const TempBarChart = ({ isDashboard = false }) => {
   );
 };
 
-export default observer(TempBarChart);
+export default TempBarChart;

@@ -2,7 +2,6 @@ import { ResponsiveLine } from "@nivo/line";
 import { useTheme } from "@mui/material";
 import { useEffect } from "react";
 import { tokens } from "../theme";
-import { observer } from 'mobx-react';
 import dataModel from 'model/aquastats.model';
 
 const TempLineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
@@ -125,4 +124,4 @@ const TempLineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
   );
 };
 
-export default observer(TempLineChart);
+export default TempLineChart;

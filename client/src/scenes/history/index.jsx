@@ -5,10 +5,9 @@ import { tokens } from "../../theme";
 import Header from "../../components/Header";
 import { fromUnixTime } from "date-fns";
 import dataModel from 'model/aquastats.model';
-import { observer } from 'mobx-react';
 
 
-const History = observer(() => {
+const History = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -65,6 +64,6 @@ const History = observer(() => {
       </Box>
     </Box>
   );
-});
+};
 
 export default History;
