@@ -1,37 +1,24 @@
+/* eslint-disable no-unused-vars */
+import React from "react";
+import Header from "../../components/Header";
 import { Box, useTheme, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
-import axios from "axios";
 import GaugeChart from "react-gauge-chart";
 import { tokens } from "../../theme";
-import Header from "../../components/Header";
+import { observer } from "mobx-react";
+import dataModel from "model/DataModel";
 
-const Realtime = ({ showHeader = true }) => {
+const Realtime = observer(({ showHeader = true }) => {
   const theme = useTheme();
-  const isDarkMode = theme.palette.mode === 'dark'; // Check if dark mode is enabled
+  const isDarkMode = theme.palette.mode === "dark";
   const colors = tokens(theme.palette.mode);
-  const [data, setData] = useState({ temperature: 0, pressure: 0, dateTime: "" });
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get("http://localhost:3001/api/realtime");
-      const latestData = response.data[response.data.length - 1];
-      setData(latestData || { temperature: 0, pressure: 0, time: " ", date: " " });
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-    const interval = setInterval(fetchData, 5000); // Fetch data every 5 seconds
-
-    // Cleanup interval on component unmount
-    return () => clearInterval(interval);
+  React.useEffect(() => {
+    dataModel.fetchRealtimeData();
   }, []);
 
   // Dynamically calculate colors based on temperature value
   const calculateTempColors = () => {
-    const { temperature } = data;
+    const { temperature } = dataModel.realtimeData;
     let gaugeColors = [];
 
     if (temperature <= 8) {
@@ -45,8 +32,15 @@ const Realtime = ({ showHeader = true }) => {
     return gaugeColors;
   };
 
+  // Safely get temperature and pressure
+  const temperature = parseFloat(dataModel.realtimeData.temperature) || 0;
+  const pressure = parseFloat(dataModel.realtimeData.pressure) || 0;
+
+  // Normalizing the large pressure value
+  const normalizedPressure = pressure / 200000; // Assuming 200000 is the max value
+
   // Format time and date
-  const formattedDateTime = `${data.time}, ${data.date}`;
+  const formattedDateTime = `${dataModel.realtimeData.time}, ${dataModel.realtimeData.date}`;
 
   return (
     <Box m="10px">
@@ -71,7 +65,7 @@ const Realtime = ({ showHeader = true }) => {
             color: isDarkMode ? "#ffffff" : "#808080", // White in dark mode, Grey in light mode
             marginTop: "8px",
             fontWeight: "bold", // Make time and date bold
-            fontFamily: 'Arial, sans-serif',
+            fontFamily: "Arial, sans-serif",
           },
         }}
       >
@@ -81,9 +75,9 @@ const Realtime = ({ showHeader = true }) => {
             <GaugeChart
               id="temperature-gauge"
               nrOfLevels={10}
-              percent={data.temperature / 55}
-              textColor={isDarkMode ? "#ffffff" : "#000000"} // White in dark mode, Black in light mode
-              formatTextValue={(value) => `${data.temperature} °C`}
+              percent={isNaN(temperature) ? 0 : temperature / 55}
+              textColor={isDarkMode ? "#ffffff" : "#000000"}
+              formatTextValue={(value) => `${isNaN(temperature) ? "N/A" : temperature.toFixed(1)} °C`}
               colors={calculateTempColors()}
               arcWidth={0.2}
               needleColor="#808080"
@@ -95,10 +89,10 @@ const Realtime = ({ showHeader = true }) => {
             <Typography variant="h6" className="gauge-text">Pressure</Typography>
             <GaugeChart
               id="pressure-gauge"
-              nrOfLevels={20}
-              percent={(data.pressure - 900) / 400}
-              textColor={isDarkMode ? "#ffffff" : "#000000"} // White in dark mode, Black in light mode
-              formatTextValue={(value) => `${data.pressure} hPa`}
+              nrOfLevels={30}
+              percent={isNaN(normalizedPressure) ? 0 : normalizedPressure}
+              textColor={isDarkMode ? "#ffffff" : "#000000"}
+              formatTextValue={(value) => `${isNaN(pressure) ? "N/A" : pressure.toFixed(0)}Pa`}
               colors={["#00bfff", "#ff00ff", "#ff0000", "#00ff00"]}
               arcWidth={0.3}
               needleColor="#808080"
@@ -110,6 +104,6 @@ const Realtime = ({ showHeader = true }) => {
       </Box>
     </Box>
   );
-};
+});
 
 export default Realtime;

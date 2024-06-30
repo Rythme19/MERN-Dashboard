@@ -1,3 +1,4 @@
+import React from "react";
 import { ResponsiveLine } from "@nivo/line";
 import { useTheme } from "@mui/material";
 import { tokens } from "../theme";
@@ -25,6 +26,7 @@ const transformData = (data) => {
   ];
 };
 
+// eslint-disable-next-line no-unused-vars
 const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);

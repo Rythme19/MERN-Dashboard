@@ -265,52 +265,52 @@ export const mockHistory = [
     pressure: 19.5
   },
   {id: "01e4dde",
-  date: "2021-09-01",
-  timestamp: "10:04:45",
-  temp: 40.5,
-  pressure: 20
+    date: "2021-09-01",
+    timestamp: "10:04:45",
+    temp: 40.5,
+    pressure: 20
   },
   {id: "01e4dga",
-  date: "2021-09-01",
-  timestamp: "10:04:45",
-  temp: 43.95,
-  pressure: 17
+    date: "2021-09-01",
+    timestamp: "10:04:45",
+    temp: 43.95,
+    pressure: 17
   },
   {id: "01e4dfe",
-  date: "2021-09-01",
-  timestamp: "11:05:45",
-  temp: 43,
-  pressure: 18
+    date: "2021-09-01",
+    timestamp: "11:05:45",
+    temp: 43,
+    pressure: 18
   },
   {id: "01e4dtr",
-  date: "2021-09-01",
-  timestamp: "11:06:45",
-  temp: 43.95,
-  pressure: 19
+    date: "2021-09-01",
+    timestamp: "11:06:45",
+    temp: 43.95,
+    pressure: 19
   },
   {id: "01e4der",
-  date: "2021-09-01",
-  timestamp: "12:08:45",
-  temp: 25,
-  pressure: 20
+    date: "2021-09-01",
+    timestamp: "12:08:45",
+    temp: 25,
+    pressure: 20
   },
   {id: "01e4dst",
-  date: "2021-09-01",
-  timestamp: "12:09:45",
-  temp: 17,
-  pressure: 16
+    date: "2021-09-01",
+    timestamp: "12:09:45",
+    temp: 17,
+    pressure: 16
   },
   {id: "01e4sse",
-  date: "2021-09-02",
-  timestamp: "12:10:45",
-  temp: 17,
-  pressure: 16
+    date: "2021-09-02",
+    timestamp: "12:10:45",
+    temp: 17,
+    pressure: 16
   },
   {id: "01e4sde",
-  date: "2021-09-02",
-  timestamp: "12:15:45",
-  temp: 18,
-  pressure: 20
+    date: "2021-09-02",
+    timestamp: "12:15:45",
+    temp: 18,
+    pressure: 20
   },
 ];
 export const mockBarData = [

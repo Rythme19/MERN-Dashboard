@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Box, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
-import { fromUnixTime } from "date-fns";
-import dataModel from 'model/aquastats.model';
+import dataModel from "model/DataModel";
+import { observer } from "mobx-react";
 
 
-const History = () => {
+const History = observer(() => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  useEffect(() => {
+  React.useEffect(() => {
     dataModel.fetchData();
+    console.log(dataModel.aquastats);
   }, []);
 
   const columns = [
@@ -57,13 +58,13 @@ const History = () => {
       >
         <DataGrid
           checkboxSelection
-          rows={dataModel.aquastatsdata}
+          rows={dataModel.aquastats}
           columns={columns}
-          getRowId={(row) => row._id} // Ensures the correct key is used for each row
+          getRowId={(row) => row._id}
         />
       </Box>
     </Box>
   );
-};
+});
 
 export default History;

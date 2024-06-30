@@ -1,17 +1,20 @@
 import { ResponsiveLine } from "@nivo/line";
 import { useTheme } from "@mui/material";
-import { useEffect } from "react";
+import React from "react";
 import { tokens } from "../theme";
-import dataModel from 'model/aquastats.model';
+import dataModel from "model/DataModel";
+import { observer } from "mobx-react";
 
-const TempLineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
+
+// eslint-disable-next-line no-unused-vars
+const TempLineChart = observer(({ isCustomLineColors = false, isDashboard = false }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  useEffect(() => {
+  React.useEffect(() => {
     dataModel.fetchData();
-    const interval = setInterval(() => dataModel.fetchData(), 10000);
-    return () => clearInterval(interval);
+    // const interval = setInterval(() => dataModel.fetchData(), 10000);
+    // return () => clearInterval(interval);
   }, []);
 
   const customTooltip = ({ point }) => (
@@ -20,7 +23,7 @@ const TempLineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
       padding: "12px 16px",
       border: `1px solid ${colors.grey[200]}`,
       borderRadius: "4px",
-      color: 'white'
+      color: "white"
     }}>
       <strong>Time:</strong> {point.data.xFormatted}<br />
       <strong>{point.serieId}:</strong> {point.data.yFormatted}
@@ -30,15 +33,16 @@ const TempLineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
   // Function to format date to display only the month
   const formatMonth = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleString('default', { month: 'short' });
+    return date.toLocaleString("default", { month: "short" });
   };
 
-  // Prepare data with original date and time for x-axis and temperature
-  const formattedData = dataModel.aquastatsdata.map(item => ({
-    x: `${item.date} ${item.time}`,
-    y: item.temperature,
-    month: formatMonth(`${item.date} ${item.time}`),
-  }));
+  const formattedData = dataModel.aquastats.map((item) => {
+    console.log(item);
+    return {
+      x: `${item.date} ${item.time}`,
+      y: item.temperature,
+      month: formatMonth(`${item.date} ${item.time}`),
+    }});
 
   return (
     <ResponsiveLine
@@ -122,6 +126,6 @@ const TempLineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
       tooltip={customTooltip}
     />
   );
-};
+});
 
 export default TempLineChart;

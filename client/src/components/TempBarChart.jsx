@@ -1,28 +1,32 @@
 import { useTheme } from "@mui/material";
 import { ResponsiveBar } from "@nivo/bar";
-import { useEffect } from "react";
+import React from "react";
 import { tokens } from "../theme";
-import dataModel from 'model/aquastats.model';
+import dataModel from "model/DataModel";
+import { observer } from "mobx-react";
 
-const TempBarChart = ({ isDashboard = false }) => {
+const TempBarChart = observer(({ isDashboard = false }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  useEffect(() => {
+  React.useEffect(() => {
     dataModel.fetchData();
-    const interval = setInterval(() => dataModel.fetchData(), 10000);
-    return () => clearInterval(interval);
+    // const interval = setInterval(() => dataModel.fetchData(), 10000);
+    // return () => clearInterval(interval);
   }, []);
 
   const customTooltip = ({ id, value, indexValue }) => (
-    <div style={{
-      background: colors.main,
-      padding: "12px 16px",
-      border: `1px solid ${colors.grey[200]}`,
-      borderRadius: "4px",
-      color: 'white'
-    }}>
-      <strong>{id}</strong>: {value}<br />
+    <div
+      style={{
+        background: colors.main,
+        padding: "12px 16px",
+        border: `1px solid ${colors.grey[200]}`,
+        borderRadius: "4px",
+        color: "white",
+      }}
+    >
+      <strong>{id}</strong>: {value}
+      <br />
       <strong>Date and Time</strong>: {indexValue}
     </div>
   );
@@ -30,11 +34,11 @@ const TempBarChart = ({ isDashboard = false }) => {
   // Function to format date to display only the month
   const formatMonth = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleString('default', { month: 'short' });
+    return date.toLocaleString("default", { month: "short" });
   };
 
   // Prepare data with original date and time for x-axis and temperature
-  const formattedData = dataModel.aquastatsdata.map(item => ({
+  const formattedData = dataModel.aquastats.map((item) => ({
     dateTime: `${item.date} ${item.time}`,
     month: formatMonth(`${item.date} ${item.time}`),
     temperature: item.temperature,
@@ -160,6 +164,6 @@ const TempBarChart = ({ isDashboard = false }) => {
       tooltip={customTooltip}
     />
   );
-};
+});
 
 export default TempBarChart;

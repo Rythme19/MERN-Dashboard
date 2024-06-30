@@ -1,28 +1,34 @@
 import { ResponsiveLine } from "@nivo/line";
 import { useTheme } from "@mui/material";
-import { useEffect } from "react";
+import React from "react";
 import { tokens } from "../theme";
-import dataModel from 'model/aquastats.model';
+import dataModel from "model/DataModel";
+import { observer } from "mobx-react";
 
-const PressLineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
+
+// eslint-disable-next-line no-unused-vars
+const PressLineChart = observer(({ isCustomLineColors = false, isDashboard = false }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  useEffect(() => {
+  React.useEffect(() => {
     dataModel.fetchData();
     const interval = setInterval(() => dataModel.fetchData(), 10000);
     return () => clearInterval(interval);
   }, []);
 
   const customTooltip = ({ point }) => (
-    <div style={{
-      background: colors.main,
-      padding: "12px 16px",
-      border: `1px solid ${colors.grey[200]}`,
-      borderRadius: "4px",
-      color: 'white'
-    }}>
-      <strong>Time:</strong> {point.data.xFormatted}<br />
+    <div
+      style={{
+        background: colors.main,
+        padding: "12px 16px",
+        border: `1px solid ${colors.grey[200]}`,
+        borderRadius: "4px",
+        color: "white",
+      }}
+    >
+      <strong>Time:</strong> {point.data.xFormatted}
+      <br />
       <strong>{point.serieId}:</strong> {point.data.yFormatted}
     </div>
   );
@@ -30,11 +36,11 @@ const PressLineChart = ({ isCustomLineColors = false, isDashboard = false }) => 
   // Function to format date to display only the month
   const formatMonth = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleString('default', { month: 'short' });
+    return date.toLocaleString("default", { month: "short" });
   };
 
   // Prepare data with original date and time for x-axis and pressure
-  const formattedData = dataModel.aquastatsdata.map(item => ({
+  const formattedData = dataModel.aquastats.map((item) => ({
     x: `${item.date} ${item.time}`,
     y: item.pressure,
     month: formatMonth(`${item.date} ${item.time}`),
@@ -42,10 +48,12 @@ const PressLineChart = ({ isCustomLineColors = false, isDashboard = false }) => 
 
   return (
     <ResponsiveLine
-      data={[{
-        id: "Pressure",
-        data: formattedData,
-      }]}
+      data={[
+        {
+          id: "Pressure",
+          data: formattedData,
+        },
+      ]}
       theme={{
         axis: {
           domain: { line: { stroke: colors.grey[100] } },
@@ -87,7 +95,7 @@ const PressLineChart = ({ isCustomLineColors = false, isDashboard = false }) => 
         tickRotation: 0,
         legend: isDashboard ? undefined : "Pressure",
         legendOffset: -40,
-        legendPosition: "middle"
+        legendPosition: "middle",
       }}
       enableGridX={false}
       enableGridY={false}
@@ -97,31 +105,35 @@ const PressLineChart = ({ isCustomLineColors = false, isDashboard = false }) => 
       pointBorderColor={{ from: "serieColor" }}
       pointLabelYOffset={-12}
       useMesh={true}
-      legends={[{
-        anchor: "bottom-right",
-        direction: "column",
-        justify: false,
-        translateX: 100,
-        translateY: 0,
-        itemsSpacing: 0,
-        itemDirection: "left-to-right",
-        itemWidth: 80,
-        itemHeight: 20,
-        itemOpacity: 0.75,
-        symbolSize: 12,
-        symbolShape: "circle",
-        symbolBorderColor: "rgba(0, 0, 0, .5)",
-        effects: [{
-          on: "hover",
-          style: {
-            itemBackground: "rgba(0, 0, 0, .03)",
-            itemOpacity: 1
-          }
-        }]
-      }]}
+      legends={[
+        {
+          anchor: "bottom-right",
+          direction: "column",
+          justify: false,
+          translateX: 100,
+          translateY: 0,
+          itemsSpacing: 0,
+          itemDirection: "left-to-right",
+          itemWidth: 80,
+          itemHeight: 20,
+          itemOpacity: 0.75,
+          symbolSize: 12,
+          symbolShape: "circle",
+          symbolBorderColor: "rgba(0, 0, 0, .5)",
+          effects: [
+            {
+              on: "hover",
+              style: {
+                itemBackground: "rgba(0, 0, 0, .03)",
+                itemOpacity: 1,
+              },
+            },
+          ],
+        },
+      ]}
       tooltip={customTooltip}
     />
   );
-};
+});
 
 export default PressLineChart;

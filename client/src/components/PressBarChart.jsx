@@ -1,14 +1,15 @@
 import { useTheme } from "@mui/material";
 import { ResponsiveBar } from "@nivo/bar";
-import { useEffect } from "react";
+import React from "react";
 import { tokens } from "../theme";
-import dataModel from 'model/aquastats.model';
+import dataModel from "model/DataModel";
+import { observer } from "mobx-react";
 
-const PressBarChart = ({ isDashboard = false }) => {
+const PressBarChart = observer(({ isDashboard = false }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  useEffect(() => {
+  React.useEffect(() => {
     dataModel.fetchData();
     const interval = setInterval(() => dataModel.fetchData(), 10000);
     return () => clearInterval(interval);
@@ -20,7 +21,7 @@ const PressBarChart = ({ isDashboard = false }) => {
       padding: "12px 16px",
       border: `1px solid ${colors.grey[200]}`,
       borderRadius: "4px",
-      color: 'white'
+      color: "white"
     }}>
       <strong>{id}</strong>: {value}<br />
       <strong>Date and Time</strong>: {indexValue}
@@ -30,21 +31,21 @@ const PressBarChart = ({ isDashboard = false }) => {
   // Function to format date to display only the month
   const formatMonth = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleString('default', { month: 'short' });
+    return date.toLocaleString("default", { month: "short" });
   };
 
   // Prepare data with original date and time for x-axis and pressure
-  const formattedData = dataModel.aquastatsdata.map(item => ({
-    dateTime: `${item.date} ${item.time}`,
-    pressure: item.pressure,
+  const formattedData = dataModel.aquastats.map(item => ({
+    dateTime: `${item.date} ${item.time}`, // Ensure this matches `indexBy` and `axisBottom.format`
     month: formatMonth(`${item.date} ${item.time}`),
+    pressure: item.pressure,
   }));
 
   return (
     <ResponsiveBar
       data={formattedData}
       keys={["pressure"]}
-      indexBy="dateTime"
+      indexBy="dateTime" // Ensure this matches the key used in formattedData
       theme={{
         axis: {
           domain: { line: { stroke: colors.grey[100] } },
@@ -160,6 +161,6 @@ const PressBarChart = ({ isDashboard = false }) => {
       tooltip={customTooltip}
     />
   );
-};
+});
 
 export default PressBarChart;

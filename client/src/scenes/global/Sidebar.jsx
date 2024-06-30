@@ -10,11 +10,12 @@ import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import SpeedIcon from '@mui/icons-material/Speed';
-import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
-import CompressIcon from '@mui/icons-material/Compress';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
+import SpeedIcon from "@mui/icons-material/Speed";
+import DeviceThermostatIcon from "@mui/icons-material/DeviceThermostat";
+import CompressIcon from "@mui/icons-material/Compress";
+// import BarChartIcon from "@mui/icons-material/BarChart";
+// import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
+
 
 
 
@@ -98,7 +99,7 @@ const Sidebar = () => {
                   alt="profile-user"
                   width="100px"
                   height="100px"
-                  src={`../../assets/seagust black simple.png`}
+                  src={"../../assets/seagust black simple.png"}
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
               </Box>

@@ -8,6 +8,7 @@ import morgan from "morgan";
 import userRouter from './routers/users.router.js';
 import aquastatsRouter from "./routers/aquastats.router.js";
 import realtimeRouter from './routers/realtime.router.js';
+import roleRouter from "./routers/role.router.js";
 
 
 
@@ -32,11 +33,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 mongoose.connect("mongodb://127.0.0.1:27017/fermeaquacole");
 /* ROUTES */
-app.use('/api/users', userRouter);
+app.use('/api/user', userRouter);
+app.use('/api/role', roleRouter);
 app.use('/api/aquastats',aquastatsRouter);
 //shoutout to omar
 app.use('/api', realtimeRouter);
-
 
 
 app.listen(port, () => {
