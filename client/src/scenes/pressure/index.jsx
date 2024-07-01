@@ -4,12 +4,12 @@ import Header from "../../components/Header";
 import PressBarChart from "../../components/PressBarChart";
 import PressLineChart from "../../components/PressLineChart";
 
-const Line = () => {
+const Pressure = () => {
   return (
     <Box m="20px">
       <Header title="Pressure Charts" subtitle="Pressure Data" />
       <Box height="40vh">
-        <PressLineChart/>
+        <PressLineChart />
       </Box>
       <Box height="40vh">
         <PressBarChart />
@@ -18,4 +18,4 @@ const Line = () => {
   );
 };
 
-export default Line;
+export default Pressure;

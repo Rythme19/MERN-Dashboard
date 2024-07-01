@@ -14,6 +14,7 @@ class Users {
       fetchRoles: action.bound,
       updateRole: action.bound,
       deleteUsers: action.bound,
+      updateUser: action.bound,
     });
     this.fetchRoles();
   }

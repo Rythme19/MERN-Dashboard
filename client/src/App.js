@@ -6,15 +6,14 @@ import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
 import Team from "./scenes/team";
 import History from "./scenes/history";
-import Bar from "./scenes/bar";
-import Line from "./scenes/line";
+import Temperature from "./scenes/temperature";
+import Pressure from "./scenes/pressure";
 import Realtime from "./scenes/realtime";
 import Dashboard from "./scenes/dashboard";
 import Login from "./scenes/login";
 import Form from "./scenes/form";
 import { AuthProvider, AuthContext } from "./AuthContext";
 import { AuthRoute, ProtectedRoute } from "./AuthRoute";
-
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -58,7 +57,7 @@ function App() {
                       <Route path="/login" element={<AuthRoute />}>
                         <Route path="/login" element={<Login />} />
                       </Route>
-                      <Route path="/" element={<ProtectedRoute />}>
+                      <Route path="/dashboard" element={<ProtectedRoute />}>
                         <Route path="/dashboard" element={<Dashboard />} />
                       </Route>
                       <Route path="/team" element={<ProtectedRoute />}>
@@ -67,11 +66,11 @@ function App() {
                       <Route path="/history" element={<ProtectedRoute />}>
                         <Route path="/history" element={<History />} />
                       </Route>
-                      <Route path="/bar" element={<ProtectedRoute />}>
-                        <Route path="/bar" element={<Bar />} />
+                      <Route path="/temperature" element={<ProtectedRoute />}>
+                        <Route path="/temperature" element={<Temperature />} />
                       </Route>
-                      <Route path="/line" element={<ProtectedRoute />}>
-                        <Route path="/line" element={<Line />} />
+                      <Route path="/pressure" element={<ProtectedRoute />}>
+                        <Route path="/pressure" element={<Pressure />} />
                       </Route>
                       <Route path="/realtime" element={<ProtectedRoute />}>
                         <Route path="/realtime" element={<Realtime />} />

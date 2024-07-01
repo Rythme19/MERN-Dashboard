@@ -1,5 +1,17 @@
 import React, { useEffect, useRef } from "react";
-import { Box, Typography, useTheme, Select, MenuItem, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
+import {
+  Box,
+  Typography,
+  useTheme,
+  Select,
+  MenuItem,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+} from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme"; // Adjust the path as needed
 import Header from "../../components/Header"; // Adjust the path as needed
@@ -33,7 +45,7 @@ const Team = observer(() => {
 
   const handleOpenDialog = () => {
     if (selectedIds.length === 1) {
-      const user = usersModel.users.find(user => user._id === selectedIds[0]);
+      const user = usersModel.users.find((user) => user._id === selectedIds[0]);
       setSelectedUser(user);
       setOpen(true);
     } else {
@@ -85,12 +97,7 @@ const Team = observer(() => {
     };
 
     return (
-      <Select
-        value={params.value}
-        onChange={handleChange}
-        displayEmpty
-        fullWidth
-      >
+      <Select value={params.value} onChange={handleChange} displayEmpty fullWidth>
         {usersModel.roles.map((role) => (
           <MenuItem key={role.id} value={role.label}>
             {role.label}

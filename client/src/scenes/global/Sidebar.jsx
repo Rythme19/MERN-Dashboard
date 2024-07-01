@@ -13,10 +13,6 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import SpeedIcon from "@mui/icons-material/Speed";
 import DeviceThermostatIcon from "@mui/icons-material/DeviceThermostat";
 import CompressIcon from "@mui/icons-material/Compress";
-// import BarChartIcon from "@mui/icons-material/BarChart";
-// import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
-
-
 
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
@@ -63,9 +59,8 @@ const Sidebar = () => {
         },
       }}
     >
-      
-      <ProSidebar collapsed={isCollapsed} >
-        <Menu iconShape="square" >
+      <ProSidebar collapsed={isCollapsed}>
+        <Menu iconShape="square">
           {/* LOGO AND MENU ICON */}
           <MenuItem
             onClick={() => setIsCollapsed(!isCollapsed)}
@@ -76,12 +71,7 @@ const Sidebar = () => {
             }}
           >
             {!isCollapsed && (
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-                ml="15px"
-              >
+              <Box display="flex" justifyContent="space-between" alignItems="center" ml="15px">
                 <Typography variant="h3" color={colors.grey[100]}>
                   ADMIN
                 </Typography>
@@ -104,12 +94,7 @@ const Sidebar = () => {
                 />
               </Box>
               <Box textAlign="center">
-                <Typography
-                  variant="h2"
-                  color={colors.grey[100]}
-                  fontWeight="bold"
-                  sx={{ m: "10px 0 0 0" }}
-                >
+                <Typography variant="h2" color={colors.grey[100]} fontWeight="bold" sx={{ m: "10px 0 0 0" }}>
                   SeaGust
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
@@ -127,31 +112,21 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
-            >
+            <Typography variant="h6" color={colors.grey[300]} sx={{ m: "15px 0 5px 20px" }}>
               Charts & Data
             </Typography>
-            <Item
-              title="Realtime"
-              to="/realtime"
-              icon={<SpeedIcon/>}
-              selected={selected}
-              setSelected={setSelected}
-            />
-           
+            <Item title="Realtime" to="/realtime" icon={<SpeedIcon />} selected={selected} setSelected={setSelected} />
+
             <Item
               title="Pressure"
-              to="/line"
+              to="/pressure"
               icon={<CompressIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="Temperature"
-              to="/bar"
+              to="/temperature"
               icon={<DeviceThermostatIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -163,18 +138,8 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            {/*<Item
-                title="Geography Chart"
-                to="/geography"
-                icon={<MapOutlinedIcon />}
-                selected={selected}
-                setSelected={setSelected}
-                />*/}
-            <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
-            >
+
+            <Typography variant="h6" color={colors.grey[300]} sx={{ m: "15px 0 5px 20px" }}>
               User & Team
             </Typography>
             <Item
