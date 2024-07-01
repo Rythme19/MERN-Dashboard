@@ -16,8 +16,8 @@ import roleRouter from "./routers/role.router.js";
 /* CONFIGURATION */
 dotenv.config();
 const app = express();
-const port = process.env.PORT// Use the PORT variable from .env, or default to 5000
-const mongoUrl = process.env.MONGO_URL; // Use the MONGO_URL variable from .env
+const port = process.env.PORT
+const mongoUrl = process.env.MONGO_URL; 
 
 // Middleware
 app.use(cors());
@@ -29,14 +29,13 @@ app.use(morgan("common"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-
-
 mongoose.connect("mongodb://127.0.0.1:27017/fermeaquacole");
+
+
 /* ROUTES */
 app.use('/api/user', userRouter);
 app.use('/api/role', roleRouter);
 app.use('/api/aquastats',aquastatsRouter);
-//shoutout to omar
 app.use('/api', realtimeRouter);
 
 

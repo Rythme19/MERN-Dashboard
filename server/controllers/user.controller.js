@@ -1,4 +1,6 @@
 import UserModel from "../models/Users.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 export const getUsers = (req, res) => {
   UserModel.find()
@@ -8,7 +10,6 @@ export const getUsers = (req, res) => {
     .catch((err) => res.status(500).json({ error: err.message }));
 };
 
-
 export const updateRole = async (req, res) => {
   const { id, role } = req.body;
   if (!id || !role) {
@@ -17,7 +18,6 @@ export const updateRole = async (req, res) => {
 
   try {
     const user = await UserModel.findById(id);
-
 
     if (!user) {
       return res.status(404).json({ error: 'No user found with the given ID' });
@@ -30,7 +30,6 @@ export const updateRole = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-
 
 export const updateUser = async (req, res) => {
   const { id } = req.params;
@@ -55,7 +54,6 @@ export const updateUser = async (req, res) => {
   }
 };
 
-
 export const deleteUsers = (req, res) => {
   const { ids } = req.body;
 
@@ -71,5 +69,87 @@ export const deleteUsers = (req, res) => {
       res.json({ message: `${result.deletedCount} users deleted successfully` });
     })
     .catch((err) => res.status(500).json({ error: err.message }));
+};
+
+export const register = async (req, res) => {
+  try {
+    const hashedPass = await bcrypt.hash(req.body.password, 10);
+    const newUser = new UserModel({
+      ...req.body,
+      password: hashedPass,
+      createdBy: req.userId,
+    });
+    const result = await newUser.save();
+    res.status(201).send({
+      message: "User created successfully",
+      result,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      message: "Error hashing password",
+      error,
+    });
+  }
+};
+
+export const login = async (req, res) => {
+  try {
+    const result = await UserModel.findOne({ email: req.body.email });
+    console.log("result: ", result);
+    if (!result) {
+      return res.status(404).send({
+        message: 'User not found'
+      });
+    }
+
+    const passChecked = await bcrypt.compare(req.body.password, result.password);
     
+    if (!passChecked) {
+      return res.status(403).send({
+        message: 'Wrong password'
+      });
+    }
+
+    const secretKey = process.env.JWT_SECRET_KEY || "mySuperSecretKey123!@#";
+    const token = jwt.sign(
+      {
+        userId: result._id,
+        email: result.email
+      },
+      secretKey,
+      { expiresIn: "24h" }
+    );
+
+    res.status(200).json({
+      message: "Token created successfully",
+      token: token
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(400).send({
+      message: "Cannot generate a token",
+      error
+    });
+  }
+};
+
+export const getOne = async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.userId);
+    
+    if (!user) {
+      return res.status(404).send({
+        message: 'User not found'
+      });
+    }
+
+    res.status(200).send(user);
+  } catch (error) {
+    console.error(error);
+    res.status(400).send({
+      message: 'You need to authenticate',
+      error: error
+    });
+  }
 };

@@ -1,5 +1,5 @@
 import { action, makeAutoObservable, observable } from "mobx";
-import { getUsers,deleteUsers,updateRole,updateUser} from "api/users";
+import { getUsers,deleteUsers,updateRole,updateUser} from "../api/users";
 import { getRoles } from "api/roles";
 
 class Users {
