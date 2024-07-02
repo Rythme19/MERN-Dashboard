@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+// eslint-disable-next-line no-unused-vars
+import React, { useEffect, useState, useContext } from "react";
 import { ColorModeContext, useMode } from "./theme";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
@@ -17,7 +18,8 @@ import { AuthRoute, ProtectedRoute } from "./AuthRoute";
 
 function App() {
   const [theme, colorMode] = useMode();
-  const [setData] = useState([]);
+  // eslint-disable-next-line no-unused-vars
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     const socket = new WebSocket("ws://localhost:3001");
@@ -54,6 +56,7 @@ function App() {
                   <main className="content">
                     {isAuthenticated && <Topbar />}
                     <Routes>
+                      <Route path="/" element={<Navigate to={isAuthenticated ? "/dashboard" : "/login"} />} />
                       <Route path="/login" element={<AuthRoute />}>
                         <Route path="/login" element={<Login />} />
                       </Route>
