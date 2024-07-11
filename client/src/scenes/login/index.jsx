@@ -23,12 +23,12 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post("http://localhost:3001/api/user/login", {  // Ensure this matches the backend route
+      const response = await axios.post("http://localhost:3001/api/user/login", {
         email,
         password,
       });
       console.log("Login successful:", response.data);
-      login(response.data.token); // Update the authentication state with token
+      login(response.data.role, response.data.token); // Update the authentication state with role and token
       navigate("/"); // Redirect to dashboard
     } catch (error) {
       console.error("Error logging in:", error);

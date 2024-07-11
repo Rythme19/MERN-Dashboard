@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { useState } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
@@ -13,7 +13,7 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import SpeedIcon from "@mui/icons-material/Speed";
 import DeviceThermostatIcon from "@mui/icons-material/DeviceThermostat";
 import CompressIcon from "@mui/icons-material/Compress";
-
+import { AuthContext } from "../../AuthContext";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -38,6 +38,7 @@ const Sidebar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
+  const { userRole } = useContext(AuthContext);
 
   return (
     <Box
@@ -73,7 +74,7 @@ const Sidebar = () => {
             {!isCollapsed && (
               <Box display="flex" justifyContent="space-between" alignItems="center" ml="15px">
                 <Typography variant="h3" color={colors.grey[100]}>
-                  ADMIN
+                  {userRole === "admin" ? "ADMIN" : "MANAGER"}
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOutlinedIcon />
@@ -116,7 +117,6 @@ const Sidebar = () => {
               Charts & Data
             </Typography>
             <Item title="Realtime" to="/realtime" icon={<SpeedIcon />} selected={selected} setSelected={setSelected} />
-
             <Item
               title="Pressure"
               to="/pressure"
@@ -139,23 +139,27 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
 
-            <Typography variant="h6" color={colors.grey[300]} sx={{ m: "15px 0 5px 20px" }}>
-              User & Team
-            </Typography>
-            <Item
-              title="Manage Team"
-              to="/team"
-              icon={<PeopleOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Profile Form"
-              to="/form"
-              icon={<PersonOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+            {userRole === "admin" && (
+              <>
+                <Typography variant="h6" color={colors.grey[300]} sx={{ m: "15px 0 5px 20px" }}>
+                  User & Team
+                </Typography>
+                <Item
+                  title="Manage Team"
+                  to="/team"
+                  icon={<PeopleOutlinedIcon />}
+                  selected={selected}
+                  setSelected={setSelected}
+                />
+                <Item
+                  title="Profile Form"
+                  to="/form"
+                  icon={<PersonOutlinedIcon />}
+                  selected={selected}
+                  setSelected={setSelected}
+                />
+              </>
+            )}
           </Box>
         </Menu>
       </ProSidebar>

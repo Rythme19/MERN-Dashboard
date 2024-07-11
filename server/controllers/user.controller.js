@@ -115,7 +115,8 @@ export const login = async (req, res) => {
     const token = jwt.sign(
       {
         userId: result._id,
-        email: result.email
+        email: result.email,
+        role: result.role // Add user role to the token payload
       },
       secretKey,
       { expiresIn: "24h" }
@@ -123,7 +124,8 @@ export const login = async (req, res) => {
 
     res.status(200).json({
       message: "Token created successfully",
-      token: token
+      token: token,
+      role: result.role // Include user role in the response
     });
   } catch (error) {
     console.error(error);

@@ -63,7 +63,7 @@ function App() {
                       <Route path="/dashboard" element={<ProtectedRoute />}>
                         <Route path="/dashboard" element={<Dashboard />} />
                       </Route>
-                      <Route path="/team" element={<ProtectedRoute />}>
+                      <Route path="/team" element={<ProtectedRoute roles={["admin"]} />}>
                         <Route path="/team" element={<Team />} />
                       </Route>
                       <Route path="/history" element={<ProtectedRoute />}>
@@ -78,7 +78,7 @@ function App() {
                       <Route path="/realtime" element={<ProtectedRoute />}>
                         <Route path="/realtime" element={<Realtime />} />
                       </Route>
-                      <Route path="/form" element={<ProtectedRoute />}>
+                      <Route path="/form" element={<ProtectedRoute roles={["admin"]} />}>
                         <Route path="/form" element={<Form />} />
                       </Route>
                     </Routes>
