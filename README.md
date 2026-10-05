@@ -1,38 +1,71 @@
-# Tableau de bord d'une ferme aquacole
+# Système de suivi d'une ferme aquacole
 
-Application web qui affiche en direct la température et la pression de l'eau d'une ferme aquacole, garde l'historique des mesures et gère les comptes de l'équipe.
+Un système IoT complet : un capteur immergé mesure la température et la pression de l'eau, un nœud ESP32 envoie les mesures par le réseau mobile, et ce tableau de bord les affiche en direct.
 
-Projet réalisé chez SEA-GUST (Tunis), de février à juin 2024.
+Ce dépôt contient **le tableau de bord et son API**.
 
 ![Tableau de bord : jauges en direct et graphiques de température et de pression](docs/screenshots/dashboard.png)
 
-## Ce que fait l'application
+> Projet de fin d'études (licence en informatique, spécialité systèmes embarqués et IoT, Faculté des Sciences de Bizerte), réalisé en binôme chez SeaGust de février à juin 2024.
 
-- **Suivi en direct** : deux jauges (température, pression) mises à jour toutes les 5 secondes.
-- **Graphiques** : courbes et histogrammes de la température et de la pression dans le temps.
-- **Historique** : toutes les mesures dans un tableau triable et filtrable.
-- **Comptes et rôles** : connexion par e-mail et mot de passe. Un administrateur crée les comptes, change les rôles et supprime des utilisateurs. Un manager consulte les données.
-- **Thème clair ou sombre**, au choix.
+## Le problème
+
+Dans une ferme aquacole, la qualité de l'eau décide de la santé des poissons. La température, la pression, le pH ou la salinité changent avec la météo, les saisons et l'alimentation.
+
+Le suivi classique se fait à la main : sondes et analyses en laboratoire. C'est lent, coûteux, sujet aux erreurs, et surtout **sans donnée en temps réel** pour décider vite.
+
+## La solution
+
+- Un **nœud autonome** posé sur la cage en mer, qui mesure à intervalle régulier, sans intervention humaine.
+- Une **transmission par le réseau mobile** (GSM/GPRS), adaptée à une cage en mer.
+- Un **tableau de bord** simple, consultable à distance par l'équipe.
 
 ## Architecture
 
-![Schéma : le nœud ESP32 publie en MQTT, Node-RED enregistre dans MongoDB et pousse la dernière mesure à l'API, l'interface React affiche le tout](docs/architecture.svg)
+![Schéma : le capteur PL309 est lu par l'ESP32, le SIM900 envoie la mesure au broker Mosquitto, Node-RED l'enregistre dans MongoDB et la pousse à l'API, l'interface React affiche le tout](docs/architecture.svg)
 
 Le trajet d'une mesure :
 
-1. Le **nœud ESP32** publie la température et la pression sur un sujet MQTT.
-2. **Node-RED** reçoit le message, ajoute la date et l'heure, l'enregistre dans **MongoDB** et envoie la dernière mesure à l'API. Il peut aussi envoyer une alerte WhatsApp.
-3. L'**API Express** sert l'historique, la dernière mesure et les comptes.
-4. L'**interface React** affiche les jauges, les graphiques et les tableaux.
+1. Le **capteur PL309** mesure la pression et la température. L'ESP32 le lit en **Modbus RTU**, à travers un convertisseur RS485.
+2. L'**ESP32** met la mesure au format JSON. Le module **SIM900** l'envoie par GPRS au broker **Mosquitto**, en MQTT.
+3. **Node-RED** reçoit le message, ajoute la date et l'heure, l'enregistre dans **MongoDB** et pousse la dernière mesure à l'API. Si un seuil est dépassé, il envoie une alerte WhatsApp.
+4. L'**API Express** sert l'historique, la dernière mesure et les comptes.
+5. L'**interface React** affiche les jauges, les graphiques et les tableaux.
 
-Ce dépôt contient l'interface et l'API. Les deux autres parties ont leur propre dépôt :
+Les deux autres parties du système ont leur propre dépôt :
 
 | Partie | Dépôt |
 |---|---|
-| Nœud capteur (ESP32, PlatformIO) | [End-Node-Aquaculture-farm](https://github.com/Rythme19/End-Node-Aquaculture-farm) |
+| Nœud capteur (ESP32, PlatformIO, C++) | [End-Node-Aquaculture-farm](https://github.com/Rythme19/End-Node-Aquaculture-farm) |
 | Flux Node-RED | [Node-Red-Aquaculture-monitoring-system](https://github.com/Rythme19/Node-Red-Aquaculture-monitoring-system) |
 
-## Captures d'écran
+## Le matériel
+
+![Schéma de câblage : SIM900, ESP32, convertisseur RS485, capteur PL309, batterie LiPo et régulateur de tension](docs/cablage.png)
+
+| Composant | Rôle |
+|---|---|
+| ESP32 | Lit le capteur, prépare le message et pilote l'envoi |
+| Capteur PL309 | Sonde immergée en inox : pression et température, sortie RS485 |
+| Convertisseur RS485 vers TTL | Fait le lien entre le signal du capteur et l'ESP32 |
+| Module SIM900 | Connexion GSM/GPRS, pilotée par commandes AT |
+| Batterie LiPo et régulateur 7805 | Alimentation stable en 5 V |
+
+**Pourquoi le réseau mobile ?** LoRaWAN a été étudié en premier, puis écarté à cause de contraintes régionales. Le GSM/GPRS couvre la zone, coûte peu et se met en place simplement.
+
+## Le traitement des mesures
+
+![Flux Node-RED : abonnement au sujet MQTT, ajout de la date et de l'heure, enregistrement en base, jauges de contrôle](docs/flux-node-red.png)
+
+Node-RED s'abonne au sujet `aquafarm/stats`, ajoute la date et l'heure à chaque message, puis l'enregistre dans MongoDB. Un petit tableau de contrôle Node-RED permet de vérifier que les mesures arrivent.
+
+## Le tableau de bord
+
+- **Suivi en direct** : deux jauges (température, pression), actualisées toutes les 5 secondes.
+- **Graphiques** : courbe et histogramme pour chaque grandeur, avec le détail d'une mesure au survol.
+- **Historique** : toutes les mesures dans un tableau, avec tri et filtre.
+- **Comptes et rôles** : un administrateur crée les comptes, modifie les informations, change les rôles et supprime des utilisateurs. Un manager consulte les données.
+- **Thème clair ou sombre**, au choix.
 
 | Température | Pression |
 |---|---|
@@ -48,6 +81,23 @@ Ce dépôt contient l'interface et l'API. Les deux autres parties ont leur propr
 
 Captures faites en local, avec des données de démonstration.
 
+## Organisation du projet
+
+Le projet a été mené en Scrum : 13 user stories réparties sur trois sprints de quatre semaines.
+
+| Sprint | Objectif | Ce qui a été livré |
+|---|---|---|
+| 1 | Collecte et transmission | Câblage du nœud, lecture du capteur en Modbus RTU, envoi en MQTT par GPRS, Node-RED et MongoDB |
+| 2 | Suivi des données | API, pages température et pression, jauges en direct, historique avec tri et filtre, alertes |
+| 3 | Gestion des utilisateurs | Connexion, rôles admin et manager, création, modification et suppression des comptes |
+
+Objectifs fixés au cahier des charges :
+
+- afficher une nouvelle mesure en moins de 15 secondes ;
+- charger un an d'historique en moins de 10 secondes ;
+- accepter jusqu'à 10 capteurs en même temps ;
+- une prise en main en moins de 10 minutes.
+
 ## Technologies
 
 | Côté | Outils |
@@ -55,6 +105,7 @@ Captures faites en local, avec des données de démonstration.
 | Interface | React 18, Material UI, Nivo (graphiques), MobX, React Router, Formik et Yup |
 | API | Node.js, Express, Mongoose, JWT, bcrypt |
 | Données | MongoDB |
+| Chaîne IoT | ESP32 (C++, PlatformIO), Modbus RTU, MQTT (Mosquitto), Node-RED |
 
 ## Lancer le projet
 
@@ -113,4 +164,11 @@ Ouvrir ensuite `http://localhost:3000` et se connecter.
 - Limite connue : les mesures en direct sont gardées en mémoire par l'API et disparaissent au redémarrage. L'historique, lui, reste dans MongoDB.
 - Limite connue : les adresses de MongoDB et de l'API sont écrites dans le code (`localhost`). Il faut les passer en variables d'environnement avant un déploiement.
 - Limite connue : le contrôle des rôles se fait dans l'interface. Côté API, la vérification du jeton reste à étendre à toutes les routes.
-- Limite connue : dans son dépôt, le nœud ESP32 publie des valeurs simulées, ce qui permet de tester toute la chaîne sans capteur.
+- Limite connue : le dépôt du nœud contient la version de test (Wi-Fi et valeurs simulées), qui sert à vérifier toute la chaîne sans capteur.
+
+## Pistes d'amélioration
+
+- Analyse prédictive sur l'historique des mesures.
+- Sécurité des comptes : double authentification et réinitialisation du mot de passe.
+- État des capteurs et notifications dans le tableau de bord.
+- Choix de la ferme à suivre, pour gérer plusieurs sites.
