@@ -36,7 +36,7 @@ Les deux autres parties du système ont leur propre dépôt :
 
 | Partie | Dépôt |
 |---|---|
-| Nœud capteur (ESP32, PlatformIO, C++) | [End-Node-Aquaculture-farm](https://github.com/Rythme19/End-Node-Aquaculture-farm) |
+| Nœud ESP32, version de test : envoi de mesures simulées en MQTT (PlatformIO, C++) | [End-Node-Aquaculture-farm](https://github.com/Rythme19/End-Node-Aquaculture-farm) |
 | Flux Node-RED | [Node-Red-Aquaculture-monitoring-system](https://github.com/Rythme19/Node-Red-Aquaculture-monitoring-system) |
 
 ## Le matériel
@@ -158,13 +158,6 @@ Ouvrir ensuite `http://localhost:3000` et se connecter.
 | GET, POST | `/api/role` | Liste et ajout de rôles |
 | GET | `/api/aquastats/getData` | Historique des mesures |
 | GET, POST | `/api/realtime` | Dernières mesures reçues |
-
-## Limites connues
-
-- Limite connue : les mesures en direct sont gardées en mémoire par l'API et disparaissent au redémarrage. L'historique, lui, reste dans MongoDB.
-- Limite connue : les adresses de MongoDB et de l'API sont écrites dans le code (`localhost`). Il faut les passer en variables d'environnement avant un déploiement.
-- Limite connue : le contrôle des rôles se fait dans l'interface. Côté API, la vérification du jeton reste à étendre à toutes les routes.
-- Limite connue : le dépôt du nœud contient la version de test (Wi-Fi et valeurs simulées), qui sert à vérifier toute la chaîne sans capteur.
 
 ## Pistes d'amélioration
 
